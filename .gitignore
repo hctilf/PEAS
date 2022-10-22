@@ -1,0 +1,5 @@
+# cpp obj & exec files
+*.obj
+*.o
+*.a
+*.json
