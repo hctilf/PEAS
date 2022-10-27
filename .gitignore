@@ -1,5 +1,9 @@
 # cpp obj & exec files
 *.obj
 *.o
+*.out
 *.a
 *.json
+*.vscode
+bin/*
+*.md

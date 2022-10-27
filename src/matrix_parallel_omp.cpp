@@ -29,7 +29,11 @@ int main(){
 
     
     ofstream file;
-    file.open("matrix_parallel.json", ios_base::out);
+    file.open("./out/matrix_parallel.json", ios_base::out);
+    if (file.is_open() != true){
+        cout << "*Failed to open file*";
+        exit(0);
+    }
 
     int ** A = new int * [matr_size];
     int ** B = new int * [matr_size];
@@ -48,7 +52,7 @@ int main(){
     
     ankerl::nanobench::Bench().output(nullptr).warmup(11).epochs(11).run("matrix mul", [&] {
             mult_mat(A,B,C,matr_size);
-    }).render(ankerl::nanobench::templates::json(), file);
+    }).render(ankerl::nanobench::templates::pyperf(), file);
 
     for (size_t i = 0; i != matr_size; i++){
         delete [] A[i]; delete [] B[i]; delete [] C[i];}
