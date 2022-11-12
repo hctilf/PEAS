@@ -1,0 +1,16 @@
+#Переменная CCC с именем компилятора
+CCC=g++
+
+static: sortmain.cpp libsort.a
+	$(CCC) sortmain.cpp libsort.a -o sortmain
+
+libsort.a: merge.cpp heap.cpp
+	$(CCC) -c merge.cpp -o merge.o
+	$(CCC) -c heap.cpp -o heap.o
+	ar rc libsort.a merge.o heap.o
+
+start: sortmain
+	./sortmain
+
+deleteobj:
+	rm -f *.o

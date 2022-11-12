@@ -1,0 +1,23 @@
+#Переменная CCC с именем компилятора
+CCC=g++
+
+SRCMODULES=merge.cpp heap.cpp
+
+OBJMODULES=$(SRCMODULES: .cpp=.o)
+
+%.o: %.cpp %.h
+
+merge.o: merge.cpp merge.h
+	$(CCC) -c $<
+
+heap.o: heap.cpp heap.h
+	$(CCC) -c $<
+
+sortmain: sortmain.cpp merge.o heap.o
+	$(CCC) $^ -o $@
+
+start: sortmain
+	./sortmain
+
+deleteobj:
+	rm -f *.o

@@ -1,0 +1,20 @@
+CCC=g++
+
+dynamic: sortmain.cpp libsort.so
+	$(CCC) sortmain.cpp -lsort -L. -o sortmain
+
+libsort.so: merge.cpp heap.cpp
+	$(CCC) -fPIC -c merge.cpp -o merge.o
+	$(CCC) -fPIC -c heap.cpp -o heap.o
+	$(CCC) -shared merge.o heap.o -o libsort.so
+
+copy: libsort.so
+	cp ./libsort.so /home/vadim/mylib
+
+start: sortmain
+	./sortmain
+
+deleteobj:
+	rm -f *.o
+
+#export LD_LIBRARY_PATH=/home/vadim/mylib
