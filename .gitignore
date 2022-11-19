@@ -8,3 +8,4 @@
 bin/*
 *.md
 src/test*
+__pycache__/
