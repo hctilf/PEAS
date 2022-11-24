@@ -6,10 +6,9 @@ from generator_classes import *
 
 
 def main():
-	headers = find_headers(sys.argv[0])
-	target = find_target()
-	for h in headers:
-		for f in target:
+	int_cnt, flt_cnt, dp_cnt = 0, 0, 0
+	for h in find_headers(sys.argv[0]):
+		for f in find_target(sys.argv[0], h):
 			file = open('test'+(f[1][2::] if f[1][:2] == '**' \
 						else f[1][1::] if f[1][0] == '*'\
 						else f[1])+'.cpp', 'w')
