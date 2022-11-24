@@ -13,10 +13,12 @@ class jsonAnalyzer:
         for i in self.json_objs:
             self.form_results(i)
 
-    def gather_files(self):
+    def gather_files(self) -> int:
         json_file_template = re.compile(r'^[.\w\d\s-]+([.]json){1}$')
 
         all_files = os.listdir()
+
+        if all_files == []: exit(1)
 
         for file in all_files:
             if json_file_template.fullmatch(file):
@@ -51,7 +53,6 @@ class jsonAnalyzer:
 if __name__ == "__main__":
 
     myData = jsonAnalyzer()
-
 
     for i in myData.results:
         print("__________________________")
