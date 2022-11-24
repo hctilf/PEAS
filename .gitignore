@@ -1,0 +1,12 @@
+# cpp obj & exec files
+*.obj
+*.o
+*.out
+*.a
+*.json
+*.vscode
+bin/*
+*.md
+src/test*
+__pycache__/
+src/__pycache__/
