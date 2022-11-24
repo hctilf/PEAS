@@ -1,11 +1,12 @@
 import os
 import string
+import sys
 from generator_classes import *
 
 
 
 def main():
-	headers = find_headers()
+	headers = find_headers(sys.argv[0])
 	target = find_target()
 	for h in headers:
 		for f in target:

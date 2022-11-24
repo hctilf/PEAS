@@ -38,21 +38,22 @@ using namespace std;\n\nint main(int argc, char *argv[]){\n\
 	int size = atoi(argv[1]);\n'
 	f.write(headers)
 
-def find_headers():
-	headers = [entry.name for entry in os.scandir(os.getcwd()) if entry.name.endswith('.h') and entry.is_file() and not entry.name == 'nanobench.h']
-	for header in headers: print(header)
-	return headers
+def find_headers(PATH):
+    cwd = os.getcwd()
+    os.chdir(PATH)
+    headers = [entry.name for entry in os.scandir(os.getcwd()) if entry.name.endswith('.h') and entry.is_file() and not entry.name == 'nanobench.h']
+    os.chdir(cwd)
+    for header in headers: print(header)
+    return headers
 
-def find_target():
+def find_target(PATH, header):
 	lines = []
-	headers = find_headers()
-	for h in headers:
-		f = open(h, 'r')
-		for line in f:
-			for i in '(),;':
-				line = line.replace(i, ' ')
-			lines.append(line.split())
-		f.close()
+	f = open(PATH + header, 'r')
+	for line in f:
+		for i in '(),;':
+			line = line.replace(i, ' ')
+		lines.append(line.split())
+	f.close()
 	print(lines)
 	return(lines)
 
