@@ -17,7 +17,9 @@ def find_files():
 
 
 def build(lib, file, nanobench = '.'):
-	#for file in find_files():
-	for oX in OPTIMISATION:
-		subprocess.run([COMP, '-I'+nanobench, lib, file,\
-			oX, '-o', file[:len(file)-4]+oX[1:]])
+	for file in find_files():
+		for oX in OPTIMISATION:
+			subprocess.run([COMP, '-I'+nanobench, lib, file,\
+				oX, '-o', file[:len(file)-4]+oX[1:]])
+
+build(sys.argv[1], sys.argv[2])
