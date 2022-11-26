@@ -4,8 +4,8 @@ import matplotlib.pyplot as plt
 fig = plt.figure(figsize=(6, 4))
 ax = fig.add_subplot()
  
-y = np.random.normal(0, 2, 500)
-ax.hist(y)
-ax.grid()
+x = [f'H{i+1}' for i in range(10)]
+y = np.random.randint(1, 5, len(x))
+ax.bar(x, y)
  
 plt.show()
