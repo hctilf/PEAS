@@ -1,6 +1,10 @@
-import os, string, sys, subprocess
+import os, string, sys, subprocess, glob
 #generator needs one additional argument: .h file parent directory
-subprocess.run(['python3', 'generator.py', '/home/vadim/PEAS/src/'])
+#or use this command '$(pwd)/'
+cur_dir = os.getcwd() + os.sep
+subprocess.run(['python3', 'generator.py', cur_dir])
 
-#generator needs one additional argument: first is path to library sources, the second one is parent directory to testSOMETHING.cpp 
-subprocess.run(['python3', 'builder.py', '/home/majong/PEAS/src/lsm.cpp', '/home/majong/PEAS/src/'])
+lib_name = os.getcwd() + os.sep + glob.glob("**/**/lsm.cpp", recursive=True)[0]
+#or use this "$(find -iname 'lsm.cpp')"
+#generator needs two additional argument: first is path to library sources, the second one is parent directory to testSOMETHING.cpp 
+subprocess.run(['python3', 'builder.py', lib_name, cur_dir])
