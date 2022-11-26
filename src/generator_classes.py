@@ -68,11 +68,11 @@ def put_bench(f, ret, func, container, void=False):
 	print(funcn)
 	if not void:
 		bench = f"	ankerl::nanobench::Bench().output(nullptr).warmup(11).epochs(11).title(json_name.substr(0, json_name.find('.'))).run(argv[1],[&] {br}\n\
-			ankerl::nanobench::doNotOptimizeAway({ret} = {func}{var};)\n\
+			ankerl::nanobench::doNotOptimizeAway({ret} = {func}{var});\n\
 		{bt}).render(ankerl::nanobench::templates::json(), file);\n"
 	else:
-		bench = f"	ankerl::nanobench::Bench().output(nullptr).warmup(11).epochs(11).title(json_name.substr(0, json_name.find('.'))).run(argv[1], [&] {br}\n\
-			ankerl::nanobench::doNotOptimizeAway({ret} = {func}{var});\n\
+		bench = f"      ankerl::nanobench::Bench().output(nullptr).warmup(11).epochs(11).title(json_name.substr(0, json_name.find('.'))).run(argv[1],[&] {br}\n\
+                        {func}{var};\n\
 		{bt}).render(ankerl::nanobench::templates::json(), file);\n"
 	bench += '	file.close();'
 	f.write(bench)
