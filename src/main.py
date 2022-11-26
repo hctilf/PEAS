@@ -1,5 +1,6 @@
 import sys
 import subprocess
+import matplotlib
 
 from PyQt5.QtWidgets import *
 from mainWindow import *
@@ -69,7 +70,7 @@ class mainWindow(QMainWindow, Ui_MainWindow):
         lib_way = library_file.read()
         library_file.close()
         # python3 builder.py /home/vadim/PEAS/src/lsm.py /home/vadim/PEAS/src/
-        subprocess.run(['python3', 'builder.py', lib_way, h_way])
+        subprocess.run(['python3', 'builder_threads.py', lib_way, h_way])
 
         # Вывод окна с результатами
         window3 = ResultsWindow()
