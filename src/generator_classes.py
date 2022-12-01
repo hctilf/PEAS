@@ -43,7 +43,6 @@ def find_headers(PATH):
     os.chdir(PATH)
     headers = [entry.name for entry in os.scandir(os.getcwd()) if entry.name.endswith('.h') and entry.is_file() and not entry.name == 'nanobench.h']
     os.chdir(cwd)
-    #for header in headers: print(header)
     return headers
 
 def find_target(PATH, header):
