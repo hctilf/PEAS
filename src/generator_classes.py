@@ -43,7 +43,7 @@ def find_headers(PATH):
     os.chdir(PATH)
     headers = [entry.name for entry in os.scandir(os.getcwd()) if entry.name.endswith('.h') and entry.is_file() and not entry.name == 'nanobench.h']
     os.chdir(cwd)
-    for header in headers: print(header)
+    #for header in headers: print(header)
     return headers
 
 def find_target(PATH, header):
@@ -54,7 +54,6 @@ def find_target(PATH, header):
 			line = line.replace(i, ' ')
 		lines.append(line.split())
 	f.close()
-	print(lines)
 	return(lines)
 
 
@@ -65,7 +64,6 @@ def put_bench(f, ret, func, container, void=False):
 			var += ''.join(str(container[i]+','))
 	else: var += ''.join(str(container[i]+')'))
 	funcn = '"'+func+'"'
-	print(funcn)
 	if not void:
 		bench = f"	ankerl::nanobench::Bench().output(nullptr).warmup(11).epochs(11).run({funcn},[&] {br}\n\
 			ankerl::nanobench::doNotOptimizeAway({ret} = {func}{var});\n\
