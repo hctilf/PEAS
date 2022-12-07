@@ -1,1 +1,3 @@
 src/test*
+src/__pycache__
+tmp
