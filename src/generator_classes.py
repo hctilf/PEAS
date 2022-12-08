@@ -132,3 +132,5 @@ class matrix(array):
 				{self.n}[i][j] = {rand_exp};\n\
 		{bt}\n\n"
 		f.write(gen_matrix)
+
+
