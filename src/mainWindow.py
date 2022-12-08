@@ -98,8 +98,8 @@ class Ui_MainWindow(object):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "ProgramEfficiency"))
 
-        self.label_1.setText(_translate("MainWindow", "Select library folder"))
-        self.label_2.setText(_translate("MainWindow", "Select .h files  folder"))
+        self.label_1.setText(_translate("MainWindow", "Select library file"))
+        self.label_2.setText(_translate("MainWindow", "Select .h file"))
 
         self.libButton.setText(_translate("MainWindow", "Open directory"))
         self.hButton.setText(_translate("MainWindow", "Open directory"))
