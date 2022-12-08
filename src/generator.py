@@ -1,4 +1,3 @@
-import os
 import string
 import sys
 from generator_classes import *
@@ -8,9 +7,9 @@ from generator_classes import *
 def generator(PATH):
 	mem_req = []
 	for h in find_headers(PATH):
-		int_arr, flt_arr, dp_arr = 0, 0, 0
-		int_cnt, flt_cnt, dp_cnt = 0, 0, 0
 		for f in find_target(PATH, h):
+			int_arr, flt_arr, dp_arr = 0, 0, 0
+			int_cnt, flt_cnt, dp_cnt = 0, 0, 0
 			name = ('test' + (f[1][2::] if f[1][:2] == '**' \
 					else f[1][1::] if f[1][0] == '*'\
 					else f[1]))
