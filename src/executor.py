@@ -5,7 +5,7 @@ from generator import *
 #subprocess.run(['python3', 'generator.py', '/home/majong/PEAS/src/'])
 
 f = open('/sys/devices/system/cpu/cpu0/cache/index3/size', 'r')
-l3 = int((f.readline())[:len(f.readline())-1])*1024
+l3 = int((f.readline()).replace('K', ''))*1024
 f.close()
 print(l3)
 mem_req = generator('/home/vadim/PEAS/src/')
