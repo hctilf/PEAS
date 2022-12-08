@@ -1,7 +1,5 @@
 import os, sys, subprocess, psutil, threading
-from builder import *
 from  generator import *
-import builder as bd
 #generator needs one additional argument: .h file parent directory
 #subprocess.run(['python3', 'generator.py', '/home/majong/PEAS/src/'])
 
@@ -48,7 +46,6 @@ def main():
 		print('Your cpu L3 cashe size(in Bt)', l3)
 		exe = execute(id, mem_req[id][0])
 		print('Current executable n = ', exe.mem_req)
-		
 		
 
 if __name__ == "main":
