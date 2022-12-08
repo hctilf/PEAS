@@ -25,7 +25,6 @@ class mainWindow(QMainWindow, Ui_MainWindow):
         library_dir = QFileDialog.getOpenFileName(self)[0]
         self.textEdit_1.append("Directory saved.")
 
-        # сохранение пути до библиотеки в текстовый файл
         library_file = open("LibraryPath.txt", "w+")
         library_file.write(library_dir)
         library_file.close()
@@ -39,7 +38,7 @@ class mainWindow(QMainWindow, Ui_MainWindow):
     def add_h_dir(self):
         way = self.textEdit_2.toPlainText()
         self.textEdit_2.setPlainText("")
-        # сохранение пути до h файлов в LibraryPath.txt        
+                
         h_file = open("hPath.txt", "a")
         h_file.write(way + "\n")
         h_file.close()
@@ -57,21 +56,23 @@ class mainWindow(QMainWindow, Ui_MainWindow):
 
     # функция сборки и вывода окна с результатами
     def results(self):
-        # чтение пути до h файлов для generator и builder
         h_file = open("hPath.txt", "r")
         h_common_way = h_file.read()
         h_way = h_common_way[0:h_common_way.rfind("/") + 1]
         h_file.close()
-        # python3 generator.py /home/vadim/PEAS/src/
-        subprocess.run(['python3', 'generator.py', h_way])
 
         # Чтение пути до библиотеки для builder
         library_file = open("LibraryPath.txt", "r")
         lib_way = library_file.read()
         library_file.close()
-        # python3 builder.py /home/vadim/PEAS/src/lsm.py /home/vadim/PEAS/src/
-        subprocess.run(['python3', 'builder.py', lib_way, h_way])
 
+        # python3 generator.py /home/vadim/PEAS/src/
+        subprocess.run(['python3', 'generator.py', h_way])
+
+        # python3 builder.py /home/vadim/PEAS/src/lsm.py /home/vadim/PEAS/src/
+        subprocess.run(['python3', 'builder_threads.py', lib_way, h_way])
+
+        # python3 executor.py
         #subprocess.run(['python3', 'executor.py'])
 
         # Вывод окна с результатами
