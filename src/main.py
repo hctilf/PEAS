@@ -72,7 +72,7 @@ class mainWindow(QMainWindow, Ui_MainWindow):
         # python3 builder.py /home/vadim/PEAS/src/lsm.py /home/vadim/PEAS/src/
         subprocess.run(['python3', 'builder_threads.py', lib_way, h_way])
 
-        subprocess.run(['python3', 'executor.py'])
+        #subprocess.run(['python3', 'executor.py'])
 
         # Вывод окна с результатами
         window3 = ResultsWindow()
