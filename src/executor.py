@@ -48,6 +48,6 @@ def main():
 		print('Current executable n = ', exe.mem_req)
 		
 
-if __name__ == "main":
+if __name__ == "__main__":
 	main()
 #exe = execute()
