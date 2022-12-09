@@ -9,7 +9,7 @@ f = open('/sys/devices/system/cpu/cpu0/cache/index3/size', 'r')
 l3 = int((f.readline().replace('K', '')))*1024
 f.close()
 print(l3)
-mem_req = generator('/home/vadim/PEAS/src/')
+mem_req = generator('/home/majong/PEAS/src/')
 
 #generator needs one additional argument: first is path to library sources, the second one is parent directory to testSOMETHING.cpp 
 #subprocess.run(['python3', 'builder.py', '/home/majong/PEAS/src/lsm.cpp', '/home/majong/PEAS/src/'])

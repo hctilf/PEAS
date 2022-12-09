@@ -98,14 +98,14 @@ class Ui_MainWindow(object):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "ProgramEfficiency"))
 
-        self.label_1.setText(_translate("MainWindow", "Select library file"))
+        self.label_1.setText(_translate("MainWindow", "Select .cpp library file"))
         self.label_2.setText(_translate("MainWindow", "Select .h file"))
 
-        self.libButton.setText(_translate("MainWindow", "Open directory"))
-        self.hButton.setText(_translate("MainWindow", "Open directory"))
+        self.libButton.setText(_translate("MainWindow", "Browse"))
+        self.hButton.setText(_translate("MainWindow", "Browse"))
         self.testButton.setText(_translate("MainWindow", "Test!"))
         self.addDirButton.setText(_translate("MainWindow", "Add directory"))
-        self.clearButton.setText(_translate("MainWindow", "Clear all directories!"))
+        self.clearButton.setText(_translate("MainWindow", "Clear all directories"))
         
         self.checkBox.setText(_translate("MainWindow", "Library builded"))
 

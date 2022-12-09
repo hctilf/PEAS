@@ -78,14 +78,8 @@ class mainWindow(QMainWindow, Ui_MainWindow):
         # python3 builder.py /home/vadim/PEAS/src/lsm.py /home/vadim/PEAS/src/
         subprocess.run(['python3', f'{curDir}/builder_threads.py', lib_way, h_way, nanobench])
 
-        #print("h_way: ", h_way)
-        #print("h_common_way: ", h_common_way)
-        #print("parDir: ", parDir)
-        #print("lib_way: ", lib_way)
-        #print("curDir: ", curDir)
-
         #execute(mem_req)
-        #subprocess.run(['python3', 'executor_threads.py'])
+        #subprocess.run(['python3', 'executor.py'])
 
         # Вывод окна с результатами
         window3 = ResultsWindow()
@@ -112,6 +106,10 @@ class ResultsWindow(QDialog, Ui_Dialog2):
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
+
+    # создание текстового файла для h директорий
+    h_file = open("hPath.txt", "w+")
+    h_file.close()
 
     window1 = mainWindow()
     window1.show()
