@@ -30,6 +30,7 @@ class executable():
 			if not exec.endswith('json'):
 				print('./' + exec, self.mem_req)
 				subprocess.run(['./' + exec, '100'])#str(self.mem_req)
+				os.remove(exec)
 		os.chdir(self.tmpDir)
 
 def execute(mem_req):
@@ -37,6 +38,3 @@ def execute(mem_req):
 		print('Your cpu L3 cashe size(in Bt)', l3)
 		exe = executable(id, info)
 		print('Current executable n = ', exe.mem_req)
-		
-
-#exe = execute()
