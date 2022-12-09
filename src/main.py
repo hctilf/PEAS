@@ -12,6 +12,7 @@ from graphics import *
 
 curDir = f'/home/{os.getlogin()}/PEAS/src'
 nanobench = parDir = f'/home/{os.getlogin()}/PEAS'
+tmpDir = f'{parDir}/tmp'
 
 class mainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self):
@@ -58,6 +59,21 @@ class mainWindow(QMainWindow, Ui_MainWindow):
         window2 = OptimizationWindow()
         window2.exec_()
 
+    def clear_tmp(self, need_to_clear):
+        for tmp in need_to_clear:
+            try: os.remove(f'{parDir}/{tmp}.cpp')
+            except FileNotFoundError:
+                print('generated .cpp removed')
+            try: 
+                for tmpSub in os.listdir(tmpDir):
+                    #print(f'{tmpDir}/{tmpSub}')
+                    for fileName in os.listdir(f'{tmpDir}/{tmpSub}'):
+                        if not fileName.endswith('json'):
+                            #print('need to remove', fileName)
+                            os.remove(f'{tmpDir}/{tmpSub}/{fileName}')
+            except FileNotFoundError:
+                print('generated binaries removed')
+
     # функция сборки и вывода окна с результатами
     def results(self):
         h_file = open(f'{parDir}/hPath.txt', "r")
@@ -72,6 +88,9 @@ class mainWindow(QMainWindow, Ui_MainWindow):
  
         subprocess.run(['python3', f'{curDir}/builder_threads.py', lib_way, h_way, nanobench])
         execute(mem_req)
+
+        need_to_clear = [tmp[0] for tmp in mem_req]
+        self.clear_tmp(need_to_clear)
 
         # Вывод окна с результатами
         
@@ -106,7 +125,7 @@ class ResultsWindow(QDialog, Ui_Dialog2):
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
 
-    h_file = open("hPath.txt", "w+")
+    h_file = open(f'{parDir}hPath.txt', "w+")
     h_file.close()
 
     window1 = mainWindow()
