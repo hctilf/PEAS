@@ -74,12 +74,14 @@ class mainWindow(QMainWindow, Ui_MainWindow):
         execute(mem_req)
 
         # Вывод окна с результатами
+        
+
         file_name = 'testsquare'
         test_names = [file_name+'O0', file_name+'O1', file_name+'O2', file_name+'O3', file_name+'Ofast']
-        testsquare_value1 = [100, 200, 300, 400, 500]
-        testsquare_value2 = [100, 200, 300, 400, 500]
-        testsquare_value3 = [100, 200, 300, 400, 500]
-        testsquare1 = Graph(test_names, testsquare_value1, testsquare_value2, testsquare_value3)
+        test_value1 = [100, 200, 300, 400, 500]
+        test_value2 = [100, 200, 300, 400, 500]
+        test_value3 = [100, 200, 300, 400, 500]
+        testsquare1 = Graph(test_names, test_value1, test_value2, test_value3)
         testsquare1.create_graph()
 
 class OptimizationWindow(QDialog, Ui_Dialog1):

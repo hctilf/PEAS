@@ -6,28 +6,44 @@ class jsonAnalyzer:
         self.json_files = []
         self.json_objs = {}
         self.results = {}
-        self.cwd = os.getcwd()
+        self.mainDir = os.path.split(os.getcwd())[0]
         self.dict = ["name", "epochs", "median(elapsed)", "median(instructions)", "median(cpucycles)", "median(branchinstructions)", "median(branchmisses)", "totalTime"]
-        self.gather_files()
-        self.load_jsons()
-        for i in self.json_objs:
-            self.form_results(i)
+        self.dirs = [d.name for d in os.scandir(f"{self.mainDir}/tmp") if d.is_dir()]
+        self.checkForTmpNdata()
+        self.gather_all()
+
+    def checkForTmpNdata(self):
+        if "tmp" not in os.listdir(f"{self.mainDir}"):
+            print("No tmp folder was found")
+            exit(1)
+        elif os.listdir(f"{self.mainDir}/tmp") == []:
+            print("Empty tmp folder")
+            exit(1)
+
+    def gather_all(self):
+        for d in self.dirs:
+            os.chdir(f"{self.mainDir}/tmp/{d}")
+            self.gather_files()
+            self.load_jsons()
+            for i in self.json_objs:
+                self.form_results(i)
 
     def gather_files(self) -> int:
         json_file_template = re.compile(r'^[.\w\d\s-]+([.]json){1}$')
 
         all_files = os.listdir()
 
-        if all_files == []: exit(1)
-
-        for file in all_files:
-            if json_file_template.fullmatch(file):
-                self.json_files.append(file)
+        if all_files == []:
+            pass
+        else:
+            for file in all_files:
+                if json_file_template.fullmatch(file):
+                    self.json_files.append(f"{os.getcwd()}/{file}")
 
     def load_jsons(self):
         for jfile in self.json_files:
             with open(jfile, 'r') as fp:
-                self.json_objs[jfile.removesuffix(".json")] = json.load(fp)
+                self.json_objs[os.path.split(jfile.removesuffix(".json"))[1]] = json.load(fp)
 
     def form_results(self, json_name):
         self.results[json_name] = {}
@@ -41,7 +57,7 @@ class jsonAnalyzer:
         self.results[test]["op/s"] = 1 / float(self.results[test]["median(elapsed)"])
         self.results[test]["ins/op"] = float(self.results[test]["median(instructions)"])
         self.results[test]["cyc/op"] = float(self.results[test]["median(cpucycles)"])
-        self.results[test]["IPC"] = float(self.results[test]["median(instructions)"] / self.results[test]["median(cpucycles)"])
+        self.results[test]["IPC"] = self.results[test]["median(instructions)"] / self.results[test]["median(cpucycles)"]
         self.results[test]["bra/op"] = float(self.results[test]["median(branchinstructions)"])
         #
         self.results[test]["median(elaps. ns.)"] = self.results[test]["median(elapsed)"] * 1e9
@@ -53,6 +69,9 @@ class jsonAnalyzer:
 if __name__ == "__main__":
 
     myData = jsonAnalyzer()
+    d = {}
+    print(myData.get_res())
+
 
     for i in myData.results:
         print("__________________________")
