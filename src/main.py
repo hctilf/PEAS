@@ -94,7 +94,7 @@ class mainWindow(QMainWindow, Ui_MainWindow):
         self.clear_tmp(need_to_clear)
 
         # Вывод окна с результатами
-        myData = jsonAnalyzer()
+        #myData = jsonAnalyzer()
 
         file_name = 'testsquare'
         test_names = [file_name+'O0', file_name+'O1', file_name+'O2', file_name+'O3', file_name+'Ofast']
