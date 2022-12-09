@@ -7,7 +7,7 @@ f.close()
 
 class executable():
 	def __init__(self, id, info) -> None:
-		self.mem_req = int(l3/(2**info[1]+4**info[2]+8**info[3])*0.1)
+		self.mem_req = int(l3/(2**info[1]+4**info[2]+8**info[3])*1)
 		self.id = id
 		self.testing = info[0]
 		self.mainDir = f'/home/{os.getlogin()}/PEAS'
@@ -29,7 +29,7 @@ class executable():
 		for exec in os.listdir():
 			if not exec.endswith('json'):
 				print('./' + exec, self.mem_req)
-				subprocess.run(['./' + exec, '100'])#str(self.mem_req)
+				subprocess.run(['sudo', './' + exec, str(self.mem_req)])
 		os.chdir(self.tmpDir)
 
 def execute(mem_req):

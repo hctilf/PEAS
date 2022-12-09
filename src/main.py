@@ -2,6 +2,7 @@ import sys, os, subprocess, psutil
 
 from generator import *
 from executor import *
+from parse_json import analyze
 
 from PyQt5.QtWidgets import *
 from mainWindow import *
@@ -95,10 +96,14 @@ class mainWindow(QMainWindow, Ui_MainWindow):
         library_file = open(f'{parDir}/LibraryPath.txt', "r")
         lib_way = library_file.read()
         library_file.close()
-        # python3 builder.py /home/vadim/PEAS/src/lsm.py /home/vadim/PEAS/src/
+        #
         subprocess.run(['python3', f'{curDir}/builder_threads.py', lib_way, h_way, nanobench])
-
+        #
         execute(mem_req)
+
+        scrapped_data = analyze()
+        #
+
         need_to_clear = [tmp[0] for tmp in mem_req]
         self.clear_tmp(need_to_clear)
         #subprocess.run(['python3', 'executor.py'])
