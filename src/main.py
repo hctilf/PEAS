@@ -7,6 +7,7 @@ from PyQt5.QtWidgets import *
 from mainWindow import *
 from optimizationWindow import *
 from resultsWindow import *
+from graphics import *
 
 
 curDir = f'/home/{os.getlogin()}/PEAS/src'
@@ -29,8 +30,6 @@ class mainWindow(QMainWindow, Ui_MainWindow):
     def get_library_dir(self):
         library_dir = QFileDialog.getOpenFileName(self)[0]
         self.textEdit_1.append("Directory saved.")
-
-        # сохранение пути до библиотеки в текстовый файл
         library_file = open(f'{parDir}/LibraryPath.txt', "w+")
         library_file.write(library_dir)
         library_file.close()
@@ -43,8 +42,7 @@ class mainWindow(QMainWindow, Ui_MainWindow):
     # функция добавления директории до h файла (их может быть несколько)
     def add_h_dir(self):
         way = self.textEdit_2.toPlainText()
-        self.textEdit_2.setPlainText("")
-        # сохранение пути до h файлов в LibraryPath.txt        
+        self.textEdit_2.setPlainText("")    
         h_file = open(f'{parDir}/hPath.txt', "a")
         h_file.write(way + "\n")
         h_file.close()
@@ -62,30 +60,26 @@ class mainWindow(QMainWindow, Ui_MainWindow):
 
     # функция сборки и вывода окна с результатами
     def results(self):
-        # чтение пути до h файлов для generator и builder
-        
         h_file = open(f'{parDir}/hPath.txt', "r")
         h_common_way = h_file.read()
         h_way = h_common_way[0:h_common_way.rfind("/") + 1]
         h_file.close()
-        # python3 generator.py /home/vadim/PEAS/src/
         mem_req = generator(h_way)
 
-        # Чтение пути до библиотеки для builder
         library_file = open(f'{parDir}/LibraryPath.txt', "r")
         lib_way = library_file.read()
         library_file.close()
-        # python3 builder.py /home/vadim/PEAS/src/lsm.py /home/vadim/PEAS/src/
+ 
         subprocess.run(['python3', f'{curDir}/builder_threads.py', lib_way, h_way, nanobench])
-
         execute(mem_req)
-        #subprocess.run(['python3', 'executor.py'])
 
         # Вывод окна с результатами
-        subprocess.run(['python3', f'{curDir}/graphics.py'])
-
-        #window3 = ResultsWindow()
-        #window3.exec_()
+        testsquare_name = ['testsquareO0', 'testsquareO1', 'testsquareO2', 'testsquareO3', 'testsquareOfast']
+        testsquare_value1 = [100, 200, 300, 400, 500]
+        testsquare_value2 = [100, 200, 300, 400, 500]
+        testsquare_value3 = [100, 200, 300, 400, 500]
+        testsquare1 = Graph(testsquare_name, testsquare_value1, testsquare_value2, testsquare_value3)
+        testsquare1.create_graph()
 
 class OptimizationWindow(QDialog, Ui_Dialog1):
     def __init__(self):
@@ -94,7 +88,6 @@ class OptimizationWindow(QDialog, Ui_Dialog1):
         self.initUI()
 
     def initUI(self):
-        
         pass
 
 class ResultsWindow(QDialog, Ui_Dialog2):
@@ -106,10 +99,10 @@ class ResultsWindow(QDialog, Ui_Dialog2):
     def initUI(self):
         pass
 
+
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
 
-    # создание текстового файла для h директорий
     h_file = open("hPath.txt", "w+")
     h_file.close()
 
