@@ -1,11 +1,16 @@
-import sys
-import subprocess
-import matplotlib
+import sys, os, subprocess, psutil
+
+from generator import *
+from executor import *
 
 from PyQt5.QtWidgets import *
 from mainWindow import *
 from optimizationWindow import *
 from resultsWindow import *
+
+
+curDir = f'/home/{os.getlogin()}/PEAS/src'
+nanobench = parDir = f'/home/{os.getlogin()}/PEAS'
 
 class mainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self):
@@ -25,7 +30,8 @@ class mainWindow(QMainWindow, Ui_MainWindow):
         library_dir = QFileDialog.getOpenFileName(self)[0]
         self.textEdit_1.append("Directory saved.")
 
-        library_file = open("LibraryPath.txt", "w+")
+        # сохранение пути до библиотеки в текстовый файл
+        library_file = open(f'{parDir}/LibraryPath.txt', "w+")
         library_file.write(library_dir)
         library_file.close()
 
@@ -38,15 +44,15 @@ class mainWindow(QMainWindow, Ui_MainWindow):
     def add_h_dir(self):
         way = self.textEdit_2.toPlainText()
         self.textEdit_2.setPlainText("")
-                
-        h_file = open("hPath.txt", "a")
+        # сохранение пути до h файлов в LibraryPath.txt        
+        h_file = open(f'{parDir}/hPath.txt', "a")
         h_file.write(way + "\n")
         h_file.close()
 
     # функция очистки документа с директориями h файлов
     def clear_h_dir(self):
         self.textEdit_2.setPlainText("")
-        h_file = open("hPath.txt", "w+")
+        h_file = open(f'{parDir}/hPath.txt', "w+")
         h_file.close()
 
     # функция вызова окна оптимизации
@@ -56,24 +62,30 @@ class mainWindow(QMainWindow, Ui_MainWindow):
 
     # функция сборки и вывода окна с результатами
     def results(self):
-        h_file = open("hPath.txt", "r")
+        # чтение пути до h файлов для generator и builder
+        
+        h_file = open(f'{parDir}/hPath.txt', "r")
         h_common_way = h_file.read()
         h_way = h_common_way[0:h_common_way.rfind("/") + 1]
         h_file.close()
+        # python3 generator.py /home/vadim/PEAS/src/
+        mem_req = generator(h_way)
 
         # Чтение пути до библиотеки для builder
-        library_file = open("LibraryPath.txt", "r")
+        library_file = open(f'{parDir}/LibraryPath.txt', "r")
         lib_way = library_file.read()
         library_file.close()
-
-        # python3 generator.py /home/vadim/PEAS/src/
-        subprocess.run(['python3', 'generator.py', h_way])
-
         # python3 builder.py /home/vadim/PEAS/src/lsm.py /home/vadim/PEAS/src/
-        subprocess.run(['python3', 'builder_threads.py', lib_way, h_way])
+        subprocess.run(['python3', f'{curDir}/builder_threads.py', lib_way, h_way, nanobench])
 
-        # python3 executor.py
-        #subprocess.run(['python3', 'executor.py'])
+        #print("h_way: ", h_way)
+        #print("h_common_way: ", h_common_way)
+        #print("parDir: ", parDir)
+        #print("lib_way: ", lib_way)
+        #print("curDir: ", curDir)
+
+        #execute(mem_req)
+        #subprocess.run(['python3', 'executor_threads.py'])
 
         # Вывод окна с результатами
         window3 = ResultsWindow()
@@ -100,10 +112,6 @@ class ResultsWindow(QDialog, Ui_Dialog2):
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
-
-    # создание текстового файла для h директорий
-    h_file = open("hPath.txt", "w+")
-    h_file.close()
 
     window1 = mainWindow()
     window1.show()
