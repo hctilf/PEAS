@@ -34,6 +34,8 @@ class mainWindow(QMainWindow, Ui_MainWindow):
         library_file = open(f'{parDir}/LibraryPath.txt', "w+")
         library_file.write(library_dir)
         library_file.close()
+        self.clear_h_dir()
+
 
     # функция выбора директории до h файлов
     def get_h_dir(self):
@@ -76,7 +78,7 @@ class mainWindow(QMainWindow, Ui_MainWindow):
         lib_way = library_file.read()
         library_file.close()
         # python3 builder.py /home/vadim/PEAS/src/lsm.py /home/vadim/PEAS/src/
-        #subprocess.run(['python3', f'{curDir}/builder_threads.py', lib_way, h_way, nanobench])
+        subprocess.run(['python3', f'{curDir}/builder_threads.py', lib_way, h_way, nanobench])
 
         execute(mem_req)
         #subprocess.run(['python3', 'executor.py'])
@@ -108,7 +110,7 @@ if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
 
     # создание текстового файла для h директорий
-    h_file = open("hPath.txt", "w+")
+    h_file = open(f'{parDir}hPath.txt', "w+")
     h_file.close()
 
     window1 = mainWindow()

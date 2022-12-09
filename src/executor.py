@@ -19,11 +19,10 @@ class executable():
 
 	def checkForTmpNdata(self):
 		if "tmp" not in os.listdir(self.mainDir):
-			print("No tmp folder was found")
-			exit(1)
+			print('First time, HUH?')
 		elif os.listdir(self.tmpDir) == []:
 			print("Empty tmp folder")
-			exit(1)
+			#exit(1)
 	
 	def start(self):
 		os.chdir(self.wd)
