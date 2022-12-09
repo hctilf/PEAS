@@ -4,7 +4,7 @@ from generator_classes import *
 
 
 
-def generator(PATH):
+def generator(dir, PATH):
 	mem_req = []
 	for h in find_headers(PATH):
 		for f in find_target(PATH, h):
@@ -13,7 +13,7 @@ def generator(PATH):
 			name = ('test' + (f[1][2::] if f[1][:2] == '**' \
 					else f[1][1::] if f[1][0] == '*'\
 					else f[1]))
-			file = open( name + '.cpp', 'w')
+			file = open(f'{dir}/{name}.cpp', 'w')
 			put_headers(file, h)
 			vars = ['size']
 			for i in range(3, len(f)):
@@ -62,6 +62,3 @@ def generator(PATH):
 			mem_req.append([name, int_arr, flt_arr, dp_arr, int_cnt,\
 			flt_cnt, dp_cnt])
 	return mem_req
-
-#if __name__ == '__main__':
-#	main()

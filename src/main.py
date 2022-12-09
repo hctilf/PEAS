@@ -76,9 +76,9 @@ class mainWindow(QMainWindow, Ui_MainWindow):
         lib_way = library_file.read()
         library_file.close()
         # python3 builder.py /home/vadim/PEAS/src/lsm.py /home/vadim/PEAS/src/
-        subprocess.run(['python3', f'{curDir}/builder_threads.py', lib_way, h_way, nanobench])
+        #subprocess.run(['python3', f'{curDir}/builder_threads.py', lib_way, h_way, nanobench])
 
-        #execute(mem_req)
+        execute(mem_req)
         #subprocess.run(['python3', 'executor.py'])
 
         # Вывод окна с результатами
