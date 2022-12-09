@@ -78,12 +78,14 @@ class mainWindow(QMainWindow, Ui_MainWindow):
         # python3 builder.py /home/vadim/PEAS/src/lsm.py /home/vadim/PEAS/src/
         subprocess.run(['python3', f'{curDir}/builder_threads.py', lib_way, h_way, nanobench])
 
-        #execute(mem_req)
+        execute(mem_req)
         #subprocess.run(['python3', 'executor.py'])
 
         # Вывод окна с результатами
-        window3 = ResultsWindow()
-        window3.exec_()
+        subprocess.run(['python3', f'{curDir}/graphics.py'])
+
+        #window3 = ResultsWindow()
+        #window3.exec_()
 
 class OptimizationWindow(QDialog, Ui_Dialog1):
     def __init__(self):
