@@ -7,7 +7,7 @@ f.close()
 
 class executable():
 	def __init__(self, id, info) -> None:
-		self.mem_req = 100 #int(l3/(2**info[1]+4**info[2]+8**info[3]))
+		self.mem_req = 100 #int(l3/(2**info[1]+4**info[2]+8**info[3])*1)
 		self.id = id
 		self.testing = info[0]
 		self.mainDir = f'/home/{os.getlogin()}/PEAS'
@@ -19,18 +19,17 @@ class executable():
 
 	def checkForTmpNdata(self):
 		if "tmp" not in os.listdir(self.mainDir):
-			print("No tmp folder was found")
-			exit(1)
+			print('First time, HUH?')
 		elif os.listdir(self.tmpDir) == []:
 			print("Empty tmp folder")
-			exit(1)
+			#exit(1)
 	
 	def start(self):
 		os.chdir(self.wd)
 		for exec in os.listdir():
 			if not exec.endswith('json'):
 				print('./' + exec, self.mem_req)
-				subprocess.run(['./' + exec, str(self.mem_req)])
+				subprocess.run(['sudo', './' + exec, str(self.mem_req)])
 		os.chdir(self.tmpDir)
 
 def execute(mem_req):
@@ -38,6 +37,3 @@ def execute(mem_req):
 		print('Your cpu L3 cashe size(in Bt)', l3)
 		exe = executable(id, info)
 		print('Current executable n = ', exe.mem_req)
-		
-
-#exe = execute()
