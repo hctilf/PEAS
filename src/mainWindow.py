@@ -104,8 +104,8 @@ class Ui_MainWindow(object):
         self.libButton.setText(_translate("MainWindow", "Browse"))
         self.hButton.setText(_translate("MainWindow", "Browse"))
         self.testButton.setText(_translate("MainWindow", "Test!"))
-        self.addDirButton.setText(_translate("MainWindow", "Add directory"))
-        self.clearButton.setText(_translate("MainWindow", "Clear all directories"))
+        self.addDirButton.setText(_translate("MainWindow", "Add head file"))
+        self.clearButton.setText(_translate("MainWindow", "Clear head paths"))
         
         self.checkBox.setText(_translate("MainWindow", "Library builded"))
 
