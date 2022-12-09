@@ -30,7 +30,6 @@ class executable():
 			if not exec.endswith('json'):
 				print('./' + exec, self.mem_req)
 				subprocess.run(['./' + exec, '100'])#str(self.mem_req)
-				os.remove(exec)
 		os.chdir(self.tmpDir)
 
 def execute(mem_req):

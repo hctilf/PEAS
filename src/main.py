@@ -11,6 +11,7 @@ from resultsWindow import *
 
 curDir = f'/home/{os.getlogin()}/PEAS/src'
 nanobench = parDir = f'/home/{os.getlogin()}/PEAS'
+tmpDir = f'{parDir}/tmp'
 
 class mainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self):
@@ -62,6 +63,21 @@ class mainWindow(QMainWindow, Ui_MainWindow):
         window2 = OptimizationWindow()
         window2.exec_()
 
+    def clear_tmp(self, need_to_clear):
+        for tmp in need_to_clear:
+            try: os.remove(f'{parDir}/{tmp}.cpp')
+            except FileNotFoundError:
+                print('generated .cpp removed')
+            try: 
+                for tmpSub in os.listdir(tmpDir):
+                    #print(f'{tmpDir}/{tmpSub}')
+                    for fileName in os.listdir(f'{tmpDir}/{tmpSub}'):
+                        if not fileName.endswith('json'):
+                            #print('need to remove', fileName)
+                            os.remove(f'{tmpDir}/{tmpSub}/{fileName}')
+            except FileNotFoundError:
+                print('generated binaries removed')
+
     # функция сборки и вывода окна с результатами
     def results(self):
         # чтение пути до h файлов для generator и builder
@@ -71,7 +87,9 @@ class mainWindow(QMainWindow, Ui_MainWindow):
         h_way = h_common_way[0:h_common_way.rfind("/") + 1]
         h_file.close()
         # python3 generator.py /home/vadim/PEAS/src/
-        mem_req = generator(parDir, h_way)
+        mem_req = generator(parDir, h_way, h_common_way[h_common_way.rfind("/")+1: len(h_common_way)-1])
+ 
+        
 
         # Чтение пути до библиотеки для builder
         library_file = open(f'{parDir}/LibraryPath.txt', "r")
@@ -81,6 +99,8 @@ class mainWindow(QMainWindow, Ui_MainWindow):
         subprocess.run(['python3', f'{curDir}/builder_threads.py', lib_way, h_way, nanobench])
 
         execute(mem_req)
+        need_to_clear = [tmp[0] for tmp in mem_req]
+        self.clear_tmp(need_to_clear)
         #subprocess.run(['python3', 'executor.py'])
 
         # Вывод окна с результатами
