@@ -1,7 +1,7 @@
-1) Select library file (select library_name.cpp).
-2) Select .h file (select h_file_name.h).
+1) Select .cpp library file.
+2) Select .h file.
    Click "Add directory".
-   You can clear all directories and select again.
+   You can clear all .h directories and select again.
 3) Click "Test".
 
 Path to library is saved to "LibraryPath.txt".
