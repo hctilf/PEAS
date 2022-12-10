@@ -14,11 +14,10 @@ OPTIMISATION = ['-O0', '-O1', '-O2', '-O3', '-Ofast']
 
 buildMutex = threading.Lock()
 cpuCnt = os.cpu_count()
-nanobench = parDir = f'/home/{os.getlogin()}/PEAS'
-curDir = parDir + '/src'
-
+curDir = os.getcwd()
+parDir = os.path.split(curDir)[0]
+lib = sys.argv[1]
 threadC = []
-lib, hfile, nanobench = sys.argv[1], sys.argv[2], sys.argv[3]
 
 def time_prog(func):	#time measurement
 	def wrapper(*args):
@@ -28,7 +27,7 @@ def time_prog(func):	#time measurement
 	return wrapper
 
 class buildThreadMain(threading.Thread):
-	def __init__(self, id, mutex, task) -> None:
+	def __init__(self, id, mutex,task) -> None:
 		self.id = id
 		self.mutex = mutex
 		self.file = task
@@ -61,23 +60,22 @@ class buildThreadChild(threading.Thread):
 		global lib
 		if cpuCnt <= 2:
 			with self.mutex:
-				subprocess.run([COMP, '-I'+nanobench, '-I'+hfile, lib, f'{parDir}/{self.file}',\
+				subprocess.run([COMP, '-I.', lib, self.file,\
 					self.oX, '-o', f"{parDir}/tmp/{self.file[:-4]}/{self.file[:len(self.file)-4]}{self.oX[1:]}"])
 		else:
-			subprocess.run([COMP, '-I'+nanobench, '-I'+hfile, lib, f'{parDir}/{self.file}',\
+			subprocess.run([COMP, '-I.', lib, self.file,\
 				self.oX, '-o', f"{parDir}/tmp/{self.file[:-4]}/{self.file[:len(self.file)-4]}{self.oX[1:]}"])	
 
 def find_files():
-	files = [entry.name for entry in os.scandir(parDir) if entry.name.startswith('test') and entry.name.endswith('.cpp') and entry.is_file() and not entry.name == 'nanobench.h']
+	files = [entry.name for entry in os.scandir(os.getcwd()) if entry.name.startswith('test') and entry.name.endswith('.cpp') and entry.is_file() and not entry.name == 'nanobench.h']
+	for f in files: print(f)
 	return files
 
 @time_prog
-def build(lib, hfile):
+def build(lib, file, nanobench = '.'):
 	if not os.path.exists(f"{parDir}/tmp"):
 		os.mkdir(f"{parDir}/tmp")
-
 	for id, file in enumerate(find_files()):
-		print(id, file)
 		if not os.path.exists(f"{parDir}/tmp/{file[:-4]}"):
 			os.mkdir(f"{parDir}/tmp/{file[:-4]}")
 		thread = buildThreadMain(id, buildMutex, file)
@@ -85,4 +83,4 @@ def build(lib, hfile):
 	for threadList in threadC:
 		for thread in threadList: thread.join()
 
-build(lib, hfile)
+build(sys.argv[1], sys.argv[2])
