@@ -1,6 +1,6 @@
 import os, subprocess
 
-f = open('/sys/devices/system/cpu/cpu0/cache/index3/size', 'r')
+f = open('/sys/devices/system/cpu/cpu0/cache/index2/size', 'r')
 l3 = int((f.readline().replace('K', '')))*1024
 f.close()
 
@@ -29,7 +29,7 @@ class executable():
 		for exec in os.listdir():
 			if not exec.endswith('json'):
 				print('./' + exec, self.mem_req)
-				subprocess.run(['./' + exec, '100'])#str(self.mem_req)
+				subprocess.run(["sudo", './' + exec, '100'])#str(self.mem_req)
 		os.chdir(self.tmpDir)
 
 def execute(mem_req):
