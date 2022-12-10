@@ -8,6 +8,7 @@ from mainWindow import *
 from optimizationWindow import *
 from resultsWindow import *
 from graphics import *
+from parse_json import *
 
 
 curDir = f'/home/{os.getlogin()}/PEAS/src'
@@ -105,7 +106,7 @@ class mainWindow(QMainWindow, Ui_MainWindow):
         #subprocess.run(['python3', 'executor.py'])
 
         # Вывод окна с результатами
-        #myData = jsonAnalyzer()
+        myData = jsonAnalyzer()
 
         file_name = 'testsquare'
         test_names = [file_name+'O0', file_name+'O1', file_name+'O2', file_name+'O3', file_name+'Ofast']
