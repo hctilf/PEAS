@@ -38,7 +38,7 @@ class execute():
 		for exec in os.listdir():
 			if not exec.endswith('json'):
 				print('./' + exec, self.mem_req)
-				subprocess.run(['./' + exec, str(self.mem_req)])
+				subprocess.run(["sudo", './' + exec, '100'])#str(self.mem_req)
 		os.chdir(self.tmpDir)
 
 def main():
