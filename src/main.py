@@ -3,6 +3,7 @@ import sys, os, subprocess, psutil
 from generator import *
 from executor import *
 from parse_json import analyze
+from graphics import *
 
 from PyQt5.QtWidgets import *
 from mainWindow import *
@@ -68,16 +69,24 @@ class mainWindow(QMainWindow, Ui_MainWindow):
         for tmp in need_to_clear:
             try: os.remove(f'{parDir}/{tmp}.cpp')
             except FileNotFoundError:
-                print('generated .cpp removed')
-            try: 
-                for tmpSub in os.listdir(tmpDir):
-                    #print(f'{tmpDir}/{tmpSub}')
-                    for fileName in os.listdir(f'{tmpDir}/{tmpSub}'):
-                        if not fileName.endswith('json'):
-                            #print('need to remove', fileName)
-                            os.remove(f'{tmpDir}/{tmpSub}/{fileName}')
-            except FileNotFoundError:
-                print('generated binaries removed')
+                print('No cpp generated')
+        try: 
+            for tmpSub in os.listdir(tmpDir):
+                #print(f'{tmpDir}/{tmpSub}')
+                for fileName in os.listdir(f'{tmpDir}/{tmpSub}'):
+                        os.remove(f'{tmpDir}/{tmpSub}/{fileName}')
+                os.rmdir(f'{tmpDir}/{tmpSub}')
+        except FileNotFoundError:
+            print('No binaries in tmp')
+        
+        #try:
+        #    os.remove(f'{parDir}/hPath.txt')
+        #    os.remove(f'{parDir}/LibraryPath.txt')
+        #except FileNotFoundError:
+        #    print('No PATH files presented')
+
+        
+            
 
     # функция сборки и вывода окна с результатами
     def results(self):
@@ -106,11 +115,17 @@ class mainWindow(QMainWindow, Ui_MainWindow):
 
         need_to_clear = [tmp[0] for tmp in mem_req]
         self.clear_tmp(need_to_clear)
-        #subprocess.run(['python3', 'executor.py'])
+        
+
 
         # Вывод окна с результатами
-        window3 = ResultsWindow()
-        window3.exec_()
+        file_name = 'testsquare'
+        test_names = [file_name+'O0', file_name+'O1', file_name+'O2', file_name+'O3', file_name+'Ofast']
+        test_value1 = [100, 200, 300, 400, 500]
+        test_value2 = [100, 200, 300, 400, 500]
+        test_value3 = [100, 200, 300, 400, 500]
+        testsquare1 = Graph(test_names, test_value1, test_value2, test_value3)
+        testsquare1.create_graph()    
 
 class OptimizationWindow(QDialog, Ui_Dialog1):
     def __init__(self):
