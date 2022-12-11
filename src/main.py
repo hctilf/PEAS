@@ -8,6 +8,7 @@ from mainWindow import *
 from optimizationWindow import *
 from resultsWindow import *
 from graphics import *
+from parse_json import jsonAnalyzer
 
 
 curDir = f'/home/{os.getlogin()}/PEAS/src'
@@ -89,31 +90,58 @@ class mainWindow(QMainWindow, Ui_MainWindow):
         h_file.close()
         # python3 generator.py /home/vadim/PEAS/src/
         mem_req = generator(parDir, h_way, h_common_way[h_common_way.rfind("/")+1: len(h_common_way)-1])
- 
-        
 
         # Чтение пути до библиотеки для builder
         library_file = open(f'{parDir}/LibraryPath.txt', "r")
         lib_way = library_file.read()
         library_file.close()
-        # python3 builder.py /home/vadim/PEAS/src/lsm.py /home/vadim/PEAS/src/
-        subprocess.run(['python3', f'{curDir}/builder_threads.py', lib_way, h_way, nanobench])
+        #python3 builder.py /home/vadim/PEAS/src/lsm.py /home/vadim/PEAS/src/
+        #subprocess.run(['python3', f'{curDir}/builder_threads.py', lib_way, h_way, nanobench])
 
-        execute(mem_req)
-        need_to_clear = [tmp[0] for tmp in mem_req]
-        self.clear_tmp(need_to_clear)
+        #execute(mem_req)
+        #need_to_clear = [tmp[0] for tmp in mem_req]
+        #self.clear_tmp(need_to_clear)
         #subprocess.run(['python3', 'executor.py'])
 
-        # Вывод окна с результатами
-        #myData = jsonAnalyzer()
+        # ГРАФИКИ--------------------------------------------------------------------------------------------
+        data = jsonAnalyzer()
 
-        file_name = 'testsquare'
-        test_names = [file_name+'O0', file_name+'O1', file_name+'O2', file_name+'O3', file_name+'Ofast']
-        test_value1 = [100, 200, 300, 400, 500]
-        test_value2 = [100, 200, 300, 400, 500]
-        test_value3 = [100, 200, 300, 400, 500]
-        testsquare1 = Graph(test_names, test_value1, test_value2, test_value3)
-        testsquare1.create_graph()
+        # Словарь данных
+        data_dict = data.get_res()
+        print(data_dict)
+
+        # Список всех названий тестов
+        all_test_names = list(data_dict.keys())
+        all_test_names.sort()
+        #print("file names: ", all_test_names)
+
+        # Списки значений для построения графиков
+        all_test_ops = []
+        all_test_ipc = []
+        all_test_time = []
+
+        for i in all_test_names:
+            all_test_ops.append(data_dict[i]['ins/op']) # Узнать поле???
+            all_test_ipc.append(data_dict[i]['IPC'])
+            all_test_time.append(data_dict[i]['median(elapsed)'])
+        
+        # Списки названий для построения графиков
+        test_combsort = Graph(all_test_names[0:5], all_test_ops[0:5], all_test_ipc[0:5], all_test_time[0:5])
+        test_cubik = Graph(all_test_names[5:10], all_test_ops[5:10], all_test_ipc[5:10], all_test_time[5:10])
+        test_errors = Graph(all_test_names[10:15], all_test_ops[10:15], all_test_ipc[10:15], all_test_time[10:15])
+        test_gauss = Graph(all_test_names[15:20], all_test_ops[15:20], all_test_ipc[15:20], all_test_time[15:20])
+        test_square = Graph(all_test_names[20:25], all_test_ops[20:25], all_test_ipc[20:25], all_test_time[20:25])
+
+        # Построение графиков
+        test_combsort.create_graph()
+        #test_cubik.create_graph()
+        #test_errors.create_graph()
+        #test_gauss.create_graph()
+        #test_square.create_graph()
+        
+        # ГРАФИКИ--------------------------------------------------------------------------------------------
+
+        
 
 class OptimizationWindow(QDialog, Ui_Dialog1):
     def __init__(self):
