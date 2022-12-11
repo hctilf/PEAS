@@ -108,12 +108,12 @@ class mainWindow(QMainWindow, Ui_MainWindow):
 
         # Словарь данных
         data_dict = data.get_res()
-        print(data_dict)
+        #print(data_dict)
 
         # Список всех названий тестов
         all_test_names = list(data_dict.keys())
         all_test_names.sort()
-        #print("file names: ", all_test_names)
+        print("file names: ", all_test_names)
 
         # Списки значений для построения графиков
         all_test_ops = []
@@ -133,8 +133,8 @@ class mainWindow(QMainWindow, Ui_MainWindow):
         test_square = Graph(all_test_names[20:25], all_test_ops[20:25], all_test_ipc[20:25], all_test_time[20:25])
 
         # Построение графиков
-        test_combsort.create_graph()
-        #test_cubik.create_graph()
+        #test_combsort.create_graph()
+        test_cubik.create_graph()
         #test_errors.create_graph()
         #test_gauss.create_graph()
         #test_square.create_graph()
