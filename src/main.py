@@ -6,7 +6,6 @@ from executor import *
 from PyQt5.QtWidgets import *
 from mainWindow import *
 from optimizationWindow import *
-from resultsWindow import *
 from graphics import *
 from parse_json import jsonAnalyzer
 
@@ -113,7 +112,7 @@ class mainWindow(QMainWindow, Ui_MainWindow):
         # Список всех названий тестов
         all_test_names = list(data_dict.keys())
         all_test_names.sort()
-        print("file names: ", all_test_names)
+        #print("file names: ", all_test_names)
 
         # Списки значений для построения графиков
         all_test_ops = []
@@ -121,9 +120,13 @@ class mainWindow(QMainWindow, Ui_MainWindow):
         all_test_time = []
 
         for i in all_test_names:
-            all_test_ops.append(data_dict[i]['ins/op']) # Узнать поле???
-            all_test_ipc.append(data_dict[i]['IPC'])
+            all_test_ops.append(data_dict[i]['ofor i in myData.results:p/s']) # 'op/s'
+            all_test_ipc.append(round(data_dict[i]['IPC'], 2))
             all_test_time.append(data_dict[i]['median(elapsed)'])
+
+        #print('\n ops', all_test_ops[5:10])
+        #print('\n ipc', all_test_ipc)
+        #print('\n sec', all_test_time)
         
         # Списки названий для построения графиков
         test_combsort = Graph(all_test_names[0:5], all_test_ops[0:5], all_test_ipc[0:5], all_test_time[0:5])
@@ -151,15 +154,6 @@ class OptimizationWindow(QDialog, Ui_Dialog1):
 
     def initUI(self):
         
-        pass
-
-class ResultsWindow(QDialog, Ui_Dialog2):
-    def __init__(self):
-        super().__init__()
-        self.setupUi(self)
-        self.initUI()
-
-    def initUI(self):
         pass
 
 if __name__ == '__main__':

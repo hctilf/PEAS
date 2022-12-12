@@ -16,10 +16,10 @@ class Graph():
         fig, ax = plt.subplots()
         fig.set_size_inches(self.width, self.height)
 
-        ax.bar(self.testNames, self.values2, color = 'tab:blue')
+        ax.bar(self.testNames, self.values1, color = 'tab:blue')
         plt.xlabel('Test name')
         plt.ylabel('op/s')
-        ax.set_title('Graph (operations per second)')
+        ax.set_title('Graph operations per second (higher is better)')
 
         plt.show()
 
@@ -31,7 +31,7 @@ class Graph():
         ax.bar(self.testNames, self.values2, color = 'tab:blue')
         plt.xlabel('Test name')
         plt.ylabel('in/c')
-        ax.set_title('Graph (instruction per cycle)')
+        ax.set_title('Graph instructions per cycle (lower is better)')
 
         plt.show()
 
@@ -43,7 +43,7 @@ class Graph():
         ax.bar(self.testNames, self.values3, color = 'tab:blue')
         plt.xlabel('Test name')
         plt.ylabel('sec')
-        ax.set_title('Main Graph (elapsed time)')
+        ax.set_title('Graph elapsed time (lower is better)')
 
         plt.show()
 
