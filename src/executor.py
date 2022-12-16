@@ -28,8 +28,8 @@ class executable():
 		os.chdir(self.wd)
 		for exec in os.listdir():
 			if not exec.endswith('json'):
-				print('./' + exec, self.mem_req)
 				subprocess.run(['sudo', './' + exec, str(self.mem_req)])
+				print('./' + exec, self.mem_req)
 		os.chdir(self.tmpDir)
 
 def execute(mem_req):

@@ -55,7 +55,7 @@ class jsonAnalyzer:
 	def form_add_results(self, test):
 		#form new data
 		self.results[test]["ns/op"] = self.results[test]["median(elapsed)"] * 1e9
-		self.results[test]["ofor i in myData.results:p/s"] = 1 / float(self.results[test]["median(elapsed)"])
+		self.results[test]["op/s"] = 1 / float(self.results[test]["median(elapsed)"])
 		self.results[test]["ins/op"] = float(self.results[test]["median(instructions)"])
 		self.results[test]["cyc/op"] = float(self.results[test]["median(cpucycles)"])
 		self.results[test]["IPC"] = self.results[test]["median(instructions)"] / self.results[test]["median(cpucycles)"]
