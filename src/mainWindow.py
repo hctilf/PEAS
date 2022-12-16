@@ -71,6 +71,12 @@ class Ui_MainWindow(object):
         self.clearButton.setStyleSheet("background-color: rgb(94, 92, 100); font: 16pt \"Ubuntu\"; color: rgb(250, 250, 250);")
         self.gridLayout.addWidget(self.clearButton, 9, 1, 1, 1)
 
+        # кнопка посмотреть результаты последнего теста
+        self.lastTestButton = QtWidgets.QPushButton(self.centralwidget)
+        self.lastTestButton.setObjectName("lastTestButton")
+        self.lastTestButton.setStyleSheet("background-color: rgb(94, 92, 100); font: 16pt \"Ubuntu\"; color: rgb(250, 250, 250);")
+        self.gridLayout.addWidget(self.lastTestButton, 10, 0, 1, 1)
+
         # кнопка тест
         self.testButton = QtWidgets.QPushButton(self.centralwidget)
         self.testButton.setObjectName("testButton")
@@ -106,6 +112,7 @@ class Ui_MainWindow(object):
         self.testButton.setText(_translate("MainWindow", "Test!"))
         self.addDirButton.setText(_translate("MainWindow", "Add head file"))
         self.clearButton.setText(_translate("MainWindow", "Clear head paths"))
+        self.lastTestButton.setText(_translate("MainWindow", "Show last test results"))
         
         self.checkBox.setText(_translate("MainWindow", "Library builded"))
 
