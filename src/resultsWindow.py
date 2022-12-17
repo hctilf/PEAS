@@ -17,16 +17,19 @@ class Ui_Dialog2(object):
         self.gridLayout.setContentsMargins(0, 0, 0, 0)
         self.gridLayout.setObjectName("gridLayout")
 
+        # текст 1
         self.label = QtWidgets.QLabel(self.gridLayoutWidget)
         self.label.setObjectName("label")
         self.label.setStyleSheet("font: 16pt \"Ubuntu\"; color: rgb(34, 217, 217);")
         self.gridLayout.addWidget(self.label, 0, 0, 1, 1)
 
+        # виджет список
         self.listWidget = QtWidgets.QListWidget(self.gridLayoutWidget)
         self.listWidget.setObjectName("listWidget")
         self.listWidget.setStyleSheet("font: 16pt \"Ubuntu\"; color: rgb(34, 217, 217);")
         self.gridLayout.addWidget(self.listWidget, 1, 0, 1, 1)
 
+        # кнопка ok
         self.okButton = QtWidgets.QPushButton(self.gridLayoutWidget)
         self.okButton.setObjectName("okButton")
         self.okButton.setStyleSheet("background-color: rgb(94, 92, 100); font: 16pt \"Ubuntu\"; color: rgb(250, 250, 250);")
