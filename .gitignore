@@ -5,3 +5,10 @@ testcubik.cpp
 testerrors.cpp
 testgauss.cpp
 testsquare.cpp
+src/test*
+__pycache__
+tmp
+*.txt
+*.h
+*.cpp
+nano*
