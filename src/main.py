@@ -27,10 +27,11 @@ class mainWindow(QMainWindow, Ui_MainWindow):
         self.testButton.clicked.connect(self.results)
         self.addDirButton.clicked.connect(self.add_h_dir)
         self.clearButton.clicked.connect(self.clear_h_dir)
-        self.lastTestButton.clicked.connect(self.last_test)
+        self.lastTestButton.clicked.connect(self.show_last_test)
     
     # функция выбора и добавления директории до библиотеки
     def get_library_dir(self):
+
         library_dir = QFileDialog.getOpenFileName(self)[0]
         self.textEdit_1.append("Directory saved.")
 
@@ -39,6 +40,7 @@ class mainWindow(QMainWindow, Ui_MainWindow):
         library_file.write(library_dir)
         library_file.close()
         self.clear_h_dir()
+
 
     # функция выбора директории до h файлов
     def get_h_dir(self):
@@ -95,26 +97,26 @@ class mainWindow(QMainWindow, Ui_MainWindow):
         lib_way = library_file.read()
         library_file.close()
         #python3 builder.py /home/vadim/PEAS/src/lsm.py /home/vadim/PEAS/src/
-        #subprocess.run(['python3', f'{curDir}/builder_threads.py', lib_way, h_way, nanobench])
-
-        #execute(mem_req)
+        #if not (h_file and lib_way) :
+            #subprocess.run(['python3', f'{curDir}/builder_threads.py', lib_way, h_way, nanobench])
+            #execute(mem_req)
+        
         global need_to_clear
         need_to_clear = [tmp[0] for tmp in mem_req]
         need_to_clear.sort()
-        #self.clear_tmp(need_to_clear)
-
-        self.show_result_window(need_to_clear)
+        self.results_window(need_to_clear)
+        self.clear_tmp(need_to_clear)
     
-    # Функция вывода окна выбора
-    def show_result_window(self, item_list):
+    # Функция вывода окна выбора результатов теста
+    def results_window(self, item_list):
         window3 = ResultsWindow()
         window3.initUI(item_list)
         window3.exec_()
 
     # Функция вывода результатов последнего теста
-    def last_test(self):
+    def show_last_test(self):
         try:
-            self.show_result_window(need_to_clear)
+            self.results_window(need_to_clear)
         except NameError:
             print("Results not found!")
         
@@ -164,11 +166,9 @@ class ResultsWindow(QDialog, Ui_Dialog2):
             list_graph.append(Graph(all_test_names[5*i:5*i+5], all_test_ops[5*i:5*i+5],all_test_ipc[5*i:5*i+5], all_test_time[5*i:5*i+5]))
         
         # Построение графиков
-        list_graph[self.listWidget.currentRow() + 1].create_graph() # Убрать + 1, если не совпадают
+        list_graph[self.listWidget.currentRow()].create_graph() # Убрать + 1, если не совпадают
 
         self.hide()
-
-        
 
 
 if __name__ == '__main__':
