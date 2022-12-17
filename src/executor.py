@@ -1,9 +1,13 @@
 import os, subprocess
 
-f = open('/sys/devices/system/cpu/cpu0/cache/index3/size', 'r')
-l3 = int((f.readline().replace('K', '')))*1024
-f.close()
-
+try: 
+	f = open('/sys/devices/system/cpu/cpu0/cache/index3/size', 'r')
+	l3 = int((f.readline().replace('K', '')))*1024
+	f.close()
+except FileNotFoundError:
+	f = open('/sys/devices/system/cpu/cpu0/cache/index2/size', 'r')
+	l3 = int((f.readline().replace('K', '')))*1024
+	f.close()
 
 class executable():
 	def __init__(self, id, info) -> None:
