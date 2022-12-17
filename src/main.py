@@ -83,6 +83,8 @@ class mainWindow(QMainWindow, Ui_MainWindow):
 
     # функция сборки и вывода окна с результатами
     def results(self):
+        #boosting performance
+        subprocess.run(['sudo', 'bash', f'.{parDir}/cpu_max.sh', 'max', 'performance'])
         # чтение пути до h файлов для generator и builder
         h_file = open(f'{parDir}/hPath.txt', "r")
         h_common_way = h_file.read()
@@ -96,17 +98,19 @@ class mainWindow(QMainWindow, Ui_MainWindow):
         lib_way = library_file.read()
         library_file.close()
         #python3 builder.py /home/vadim/PEAS/src/lsm.py /home/vadim/PEAS/src/
-        if not (h_file and lib_way) :
-            subprocess.run(['python3', f'{curDir}/builder_threads.py', lib_way, h_way, nanobench])
-            execute(mem_req)
+        
+        subprocess.run(['python3', f'{curDir}/builder_threads.py', lib_way, h_way, nanobench])
+        execute(mem_req)
         
         need_to_clear = [tmp[0] for tmp in mem_req]
         need_to_clear.sort()
-
+        
+        self.clear_tmp(need_to_clear)
+        
         window3 = ResultsWindow()
         window3.initUI(need_to_clear)
         window3.exec_()
-        self.clear_tmp(need_to_clear)
+        
 '''
 class OptimizationWindow(QDialog, Ui_Dialog1):
     def __init__(self):
