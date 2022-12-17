@@ -155,7 +155,7 @@ class ResultsWindow(QDialog, Ui_Dialog2):
         all_test_time = []
 
         for i in all_test_names:
-            all_test_ops.append(round(data_dict[i]['ofor i in myData.results:p/s'], 2)) # 'op/s'
+            all_test_ops.append(round(data_dict[i]['op/s'], 2)) # 'op/s'
             all_test_ipc.append(round(data_dict[i]['IPC'], 2))
             all_test_time.append(data_dict[i]['median(elapsed)'])
         
