@@ -13,7 +13,7 @@ except FileNotFoundError:
 
 class executable():
 	def __init__(self, info) -> None:
-		self.mem_req = 100#int(l3/(2**info[1]+4**info[2]+8**info[3])*0.01)
+		self.mem_req = int(l3/(2**info[1]+4**info[2]+8**info[3])*0.01)
 		self.testing = info[0]
 		self.wd = tmpDir + f'/{self.testing}'
 		self.checkForTmpNdata()
@@ -38,8 +38,9 @@ class executable():
 				ps.cpu_percent()
 
 				while sp.poll() is None:
+					ps.cpu_percent()
+					time.sleep(0.01)
 					cpu_percents.append(ps.cpu_percent())
-					time.sleep(0.009)
 				print(cpu_percents)
 				load = sum(cpu_percents)/len(cpu_percents)
 				print(exec, load)
