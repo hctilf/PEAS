@@ -39,7 +39,7 @@ class executable():
 
 				while sp.poll() is None:
 					cpu_percents.append(ps.cpu_percent())
-					time.sleep(0.01)
+					time.sleep(0.009)
 				print(cpu_percents)
 				load = sum(cpu_percents)/len(cpu_percents)
 				print(exec, load)
