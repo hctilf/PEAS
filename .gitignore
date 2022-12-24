@@ -5,3 +5,16 @@ tmp
 *.h
 *.cpp
 nano*
+# cpp obj & exec files
+*.obj
+*.txt
+*.o
+*.out
+*.a
+*.json
+*.vscode
+bin/
+*.md
+src/test*
+/src/__pycache__/
+/tmp

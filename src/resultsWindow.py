@@ -4,36 +4,38 @@ class Ui_Dialog2(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
 
-        Dialog.resize(400, 400)
-        Dialog.setMinimumSize(QtCore.QSize(400, 400))
+        Dialog.resize(800, 400)
+        Dialog.setMinimumSize(QtCore.QSize(800, 400))
 
         Dialog.setStyleSheet("background-color: rgb(61, 56, 70);")
 
-        self.gridLayoutWidget = QtWidgets.QWidget(Dialog)
-        self.gridLayoutWidget.setGeometry(QtCore.QRect(10, 10, 380, 380))
-        self.gridLayoutWidget.setObjectName("gridLayoutWidget")
+        self.centralwidget = QtWidgets.QWidget(Dialog)
+        self.centralwidget.setObjectName("centralwidget")
 
+        self.gridLayoutWidget = QtWidgets.QWidget(self.centralwidget)
+        self.gridLayoutWidget.setGeometry(QtCore.QRect(0, 0, 16777215, 16777215))
+        self.gridLayoutWidget.setObjectName("gridLayoutWidget")
         self.gridLayout = QtWidgets.QGridLayout(self.gridLayoutWidget)
         self.gridLayout.setContentsMargins(0, 0, 0, 0)
         self.gridLayout.setObjectName("gridLayout")
-
+        
+        # текст
         self.label = QtWidgets.QLabel(self.gridLayoutWidget)
         self.label.setObjectName("label")
         self.label.setStyleSheet("font: 16pt \"Ubuntu\"; color: rgb(34, 217, 217);")
-        self.gridLayout.addWidget(self.label, 0, 0, 1, 1)
+        self.label.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
+        self.gridLayout.addWidget(self.label, 0, 0, 1, 0)
 
-        self.listWidget = QtWidgets.QListWidget(self.gridLayoutWidget)
-        self.listWidget.setObjectName("listWidget")
-        self.listWidget.setStyleSheet("font: 16pt \"Ubuntu\"; color: rgb(34, 217, 217);")
-        self.gridLayout.addWidget(self.listWidget, 1, 0, 1, 1)
-
-        self.okButton = QtWidgets.QPushButton(self.gridLayoutWidget)
-        self.okButton.setObjectName("okButton")
-        self.okButton.setStyleSheet("background-color: rgb(94, 92, 100); font: 16pt \"Ubuntu\"; color: rgb(250, 250, 250);")
-        self.gridLayout.addWidget(self.okButton, 2, 0, 1, 1)
+        # виджет отображения
+        self.textEdit_1 = QtWidgets.QTextEdit(self.gridLayoutWidget)
+        self.textEdit_1.setObjectName("textEdit")
+        self.textEdit_1.setMaximumSize(QtCore.QSize(16777215, 16777215))
+        #self.textEdit_1.setReadOnly(True)
+        self.textEdit_1.setStyleSheet("background-color: rgb(94, 92, 100); font: 16pt \"Ubuntu\"; color:rgb(250, 250, 250);")
+        self.gridLayout.addWidget(self.textEdit_1, 1, 0, 1, 1)
 
         self.retranslateUi(Dialog)
-        #QtCore.QMetaObject.connectSlotsByName(Dialog)
+        QtCore.QMetaObject.connectSlotsByName(Dialog)
 
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
@@ -48,7 +50,7 @@ if __name__ == "__main__":
 
     app = QtWidgets.QApplication(sys.argv)
     Dialog = QtWidgets.QDialog()
-    ui = Ui_Dialog()
+    ui = Ui_Dialog2()
     ui.setupUi(Dialog)
     Dialog.show()
     sys.exit(app.exec_())

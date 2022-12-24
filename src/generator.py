@@ -1,3 +1,6 @@
+import os
+import string
+import sys
 from generator_classes import *
 
 

@@ -22,4 +22,8 @@ def build(lib, file, nanobench = '.'):
 			subprocess.run([COMP, '-I'+nanobench, lib, file,\
 				oX, '-o', file[:len(file)-4]+oX[1:]])
 
+<<<<<<< HEAD
 #build(sys.argv[1], sys.argv[2])
+=======
+build(sys.argv[1], sys.argv[2])
+>>>>>>> 8b13cd66491c8b837c78a6913b098c335fffafd9

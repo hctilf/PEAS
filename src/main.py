@@ -30,7 +30,6 @@ class mainWindow(QMainWindow, Ui_MainWindow):
     
     # функция выбора и добавления директории до библиотеки
     def get_library_dir(self):
-
         library_dir = QFileDialog.getOpenFileName(self)[0]
         self.textEdit_1.append("Directory saved.")
 
@@ -80,6 +79,13 @@ class mainWindow(QMainWindow, Ui_MainWindow):
                             os.remove(f'{tmpDir}/{tmpSub}/{fileName}')
             except FileNotFoundError:
                 print('generated binaries removed')
+        h_file = open("hPath.txt", "w+")
+        h_file.close()
+
+    # функция вызова окна оптимизации
+    def optimization(self):
+        window2 = OptimizationWindow()
+        window2.exec_()
 
     # функция сборки и вывода окна с результатами
     def results(self):
@@ -108,6 +114,19 @@ class mainWindow(QMainWindow, Ui_MainWindow):
         window3.exec_()
         self.clear_tmp(need_to_clear)
 '''
+        subprocess.run(['python3', 'generator.py', h_way])
+
+        # Чтение пути до библиотеки для builder
+        library_file = open("LibraryPath.txt", "r")
+        lib_way = library_file.read()
+        library_file.close()
+        # python3 builder.py /home/vadim/PEAS/src/lsm.py /home/vadim/PEAS/src/
+        subprocess.run(['python3', 'builder.py', lib_way, h_way])
+
+        # Вывод окна с результатами
+        window3 = ResultsWindow()
+        window3.exec_()
+
 class OptimizationWindow(QDialog, Ui_Dialog1):
     def __init__(self):
         super().__init__()
@@ -157,6 +176,10 @@ class ResultsWindow(QDialog, Ui_Dialog2):
 
         self.hide()
 
+        self.initUI()
+
+    def initUI(self):
+        pass
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
