@@ -33,7 +33,7 @@ class mainWindow(QMainWindow, Ui_MainWindow):
     def get_library_dir(self):
 
         library_dir = QFileDialog.getOpenFileName(self)[0]
-        self.textEdit_1.append("Directory saved.")
+        self.textEdit_1.append("Saved.")
 
         # сохранение пути до библиотеки в текстовый файл
         library_file = open(f'{parDir}/LibraryPath.txt', "w+")
