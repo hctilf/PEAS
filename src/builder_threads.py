@@ -35,7 +35,7 @@ class buildThreadMain(threading.Thread):
 		threading.Thread.__init__(self)
 
 	def run(self):
-		if cpuCnt <= 4:
+		if cpuCnt < 4:
 			with self.mutex:
 				for id, oX in enumerate(OPTIMISATION):
 					threadC.append([])
