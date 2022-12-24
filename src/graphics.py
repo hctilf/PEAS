@@ -56,7 +56,7 @@ class Graph():
         ax.bar(self.testNames, self.values4, color = 'tab:blue')
         plt.xlabel('Test name')
         plt.ylabel('% * sec')
-        ax.set_title('Graph work (higher is better)')
+        ax.set_title('Graph work (lower is better)')
 
         plt.show()
 
