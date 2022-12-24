@@ -1,7 +1,4 @@
 import os, sys, subprocess, psutil, threading
-from builder import *
-from  generator import *
-import builder as bd
 from  generator import *
 #generator needs one additional argument: .h file parent directory
 #subprocess.run(['python3', 'generator.py', '/home/majong/PEAS/src/'])
