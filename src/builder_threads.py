@@ -35,7 +35,7 @@ class buildThreadMain(threading.Thread):
 		threading.Thread.__init__(self)
 
 	def run(self):
-		if cpuCnt < 4:
+		if cpuCnt < cpuCnt/2:
 			with self.mutex:
 				for id, oX in enumerate(OPTIMISATION):
 					threadC.append([])
@@ -59,7 +59,7 @@ class buildThreadChild(threading.Thread):
 
 	def run(self):
 		global lib
-		if cpuCnt <= 2:
+		if cpuCnt <= cpuCnt/4:
 			with self.mutex:
 				subprocess.run([COMP, '-I'+nanobench, '-I'+hfile, lib, f'{parDir}/{self.file}',\
 					self.oX, '-o', f"{parDir}/tmp/{self.file[:-4]}/{self.file[:len(self.file)-4]}{self.oX[1:]}"])
