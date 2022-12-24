@@ -105,10 +105,11 @@ class mainWindow(QMainWindow, Ui_MainWindow):
         lib_way = library_file.read()
         library_file.close()
         
-        subprocess.run(['python3', f'{curDir}/builder_threads.py', lib_way, h_way, nanobench])
+        #subprocess.run(['python3', f'{curDir}/builder_threads.py', lib_way, h_way, nanobench])
         global cpu_util
         subprocess.run(['sudo', 'bash', f'.{parDir}/cpu_max.sh', 'min', 'powersave'])
-        cpu_util = execute(mem_req)
+        #cpu_util = execute(mem_req)
+        cpu_util = {'testsquareO1': 97.13958333333336, 'testsquareOfast': 94.9025, 'testsquareO2': 96.38881987577653, 'testsquareO0': 97.01276595744687, 'testsquareO3': 96.20547945205483, 'testcubikO1': 0.0, 'testcubikO2': 0.0, 'testcubikO0': 16.3, 'testcubikO3': 13.942857142857141, 'testcubikOfast': 19.5, 'testerrorsO3': 0.0, 'testerrorsO0': 14.0, 'testerrorsO2': 13.942857142857141, 'testerrorsO1': 13.928571428571429, 'testerrorsOfast': 24.15, 'testgaussO2': 16.316666666666666, 'testgaussO1': 16.3, 'testgaussO3': 19.54, 'testgaussOfast': 16.183333333333334, 'testgaussO0': 43.58888888888889}
         
         global need_to_clear
         need_to_clear = [tmp[0] for tmp in mem_req]
