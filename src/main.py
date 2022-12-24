@@ -27,19 +27,19 @@ class mainWindow(QMainWindow, Ui_MainWindow):
         self.testButton.clicked.connect(self.results)
         self.addDirButton.clicked.connect(self.add_h_dir)
         self.clearButton.clicked.connect(self.clear_h_dir)
-        self.lastTestButton.clicked.connect(self.show_last_test)
     
     # функция выбора и добавления директории до библиотеки
     def get_library_dir(self):
 
         library_dir = QFileDialog.getOpenFileName(self)[0]
-        self.textEdit_1.append("Saved.")
+        self.textEdit_1.append("Directory saved.")
 
         # сохранение пути до библиотеки в текстовый файл
         library_file = open(f'{parDir}/LibraryPath.txt', "w+")
         library_file.write(library_dir)
         library_file.close()
         self.clear_h_dir()
+
 
     # функция выбора директории до h файлов
     def get_h_dir(self):
@@ -99,32 +99,17 @@ class mainWindow(QMainWindow, Ui_MainWindow):
         library_file.close()
         #python3 builder.py /home/vadim/PEAS/src/lsm.py /home/vadim/PEAS/src/
         
-        #if not (h_file and lib_way) :
-            #subprocess.run(['python3', f'{curDir}/builder_threads.py', lib_way, h_way, nanobench])
-            #execute(mem_req)
+        subprocess.run(['python3', f'{curDir}/builder_threads.py', lib_way, h_way, nanobench])
+        execute(mem_req)
         
-        global cpu_util
-        cpu_util = execute(mem_req)
-
-        
-        global need_to_clear
         need_to_clear = [tmp[0] for tmp in mem_req]
         need_to_clear.sort()
-        self.results_window(need_to_clear)
+        
         self.clear_tmp(need_to_clear)
-    
-    # Функция вывода окна выбора результатов теста
-    def results_window(self, item_list):
+        
         window3 = ResultsWindow()
-        window3.initUI(item_list)
+        window3.initUI(need_to_clear)
         window3.exec_()
-
-    # Функция вывода результатов последнего теста
-    def show_last_test(self):
-        try:
-            self.results_window(need_to_clear)
-        except NameError:
-            print("Results not found!")
         
 '''
 class OptimizationWindow(QDialog, Ui_Dialog1):
@@ -157,26 +142,19 @@ class ResultsWindow(QDialog, Ui_Dialog2):
         all_test_names = list(data_dict.keys())
         all_test_names.sort()
 
-        for_test = {'testsquareO1': 97.13958333333336, 'testsquareOfast': 94.9025, 'testsquareO2': 96.38881987577653, 'testsquareO0': 97.01276595744687, 'testsquareO3': 96.20547945205483, 'testcubikO1': 0.0, 'testcubikO2': 0.0, 'testcubikO0': 16.3, 'testcubikO3': 13.942857142857141, 'testcubikOfast': 19.5, 'testerrorsO3': 0.0, 'testerrorsO0': 14.0, 'testerrorsO2': 13.942857142857141, 'testerrorsO1': 13.928571428571429, 'testerrorsOfast': 24.15, 'testgaussO2': 16.316666666666666, 'testgaussO1': 16.3, 'testgaussO3': 19.54, 'testgaussOfast': 16.183333333333334, 'testgaussO0': 43.58888888888889}
-
         # Списки значений для построения графиков
         all_test_ops = []
         all_test_ipc = []
         all_test_time = []
-        all_test_cpuUtil = []
 
-        for id, i in enumerate(all_test_names):
+        for i in all_test_names:
             all_test_ops.append(round(data_dict[i]['op/s'], 2)) # 'op/s'
             all_test_ipc.append(round(data_dict[i]['IPC'], 2))
             all_test_time.append(data_dict[i]['median(elapsed)'])
-            all_test_cpuUtil.append(for_test[i]*all_test_time[id])
-
-        print("cpu util:", all_test_cpuUtil)
-        print("time: ", all_test_time)
         
         list_graph = []
         for i in range(int(len(all_test_names)/5)):
-            list_graph.append(Graph(all_test_names[5*i:5*i+5], all_test_ops[5*i:5*i+5], all_test_ipc[5*i:5*i+5], all_test_time[5*i:5*i+5], all_test_cpuUtil[5*i:5*i+5]))
+            list_graph.append(Graph(all_test_names[5*i:5*i+5], all_test_ops[5*i:5*i+5],all_test_ipc[5*i:5*i+5], all_test_time[5*i:5*i+5]))
         
         # Построение графиков
         list_graph[self.listWidget.currentRow()].create_graph() # Убрать + 1, если не совпадают
