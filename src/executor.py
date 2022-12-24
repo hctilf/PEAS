@@ -1,13 +1,17 @@
 import os, subprocess
 
-f = open('/sys/devices/system/cpu/cpu0/cache/index2/size', 'r')
-l3 = int((f.readline().replace('K', '')))*1024
-f.close()
-
+try: 
+	f = open('/sys/devices/system/cpu/cpu0/cache/index3/size', 'r')
+	l3 = int((f.readline().replace('K', '')))*1024
+	f.close()
+except FileNotFoundError:
+	f = open('/sys/devices/system/cpu/cpu0/cache/index2/size', 'r')
+	l3 = int((f.readline().replace('K', '')))*1024
+	f.close()
 
 class executable():
 	def __init__(self, id, info) -> None:
-		self.mem_req = 100 #int(l3/(2**info[1]+4**info[2]+8**info[3])*0.1)
+		self.mem_req = 100#int(l3/(2**info[1]+4**info[2]+8**info[3])*1)
 		self.id = id
 		self.testing = info[0]
 		self.mainDir = f'/home/{os.getlogin()}/PEAS'
@@ -28,8 +32,8 @@ class executable():
 		os.chdir(self.wd)
 		for exec in os.listdir():
 			if not exec.endswith('json'):
+				subprocess.run(['sudo', './' + exec, str(self.mem_req)])
 				print('./' + exec, self.mem_req)
-				subprocess.run(["sudo", './' + exec, '100'])#str(self.mem_req)
 		os.chdir(self.tmpDir)
 
 def execute(mem_req):
