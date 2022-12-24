@@ -157,21 +157,26 @@ class ResultsWindow(QDialog, Ui_Dialog2):
         all_test_names = list(data_dict.keys())
         all_test_names.sort()
 
+        for_test = {'testsquareO1': 97.13958333333336, 'testsquareOfast': 94.9025, 'testsquareO2': 96.38881987577653, 'testsquareO0': 97.01276595744687, 'testsquareO3': 96.20547945205483, 'testcubikO1': 0.0, 'testcubikO2': 0.0, 'testcubikO0': 16.3, 'testcubikO3': 13.942857142857141, 'testcubikOfast': 19.5, 'testerrorsO3': 0.0, 'testerrorsO0': 14.0, 'testerrorsO2': 13.942857142857141, 'testerrorsO1': 13.928571428571429, 'testerrorsOfast': 24.15, 'testgaussO2': 16.316666666666666, 'testgaussO1': 16.3, 'testgaussO3': 19.54, 'testgaussOfast': 16.183333333333334, 'testgaussO0': 43.58888888888889}
+
         # Списки значений для построения графиков
         all_test_ops = []
         all_test_ipc = []
         all_test_time = []
         all_test_cpuUtil = []
 
-        for i in all_test_names:
+        for id, i in enumerate(all_test_names):
             all_test_ops.append(round(data_dict[i]['op/s'], 2)) # 'op/s'
             all_test_ipc.append(round(data_dict[i]['IPC'], 2))
             all_test_time.append(data_dict[i]['median(elapsed)'])
-            all_test_cpuUtil.append(cpu_util[i])
+            all_test_cpuUtil.append(for_test[i]*all_test_time[id])
+
+        print("cpu util:", all_test_cpuUtil)
+        print("time: ", all_test_time)
         
         list_graph = []
         for i in range(int(len(all_test_names)/5)):
-            list_graph.append(Graph(all_test_names[5*i:5*i+5], all_test_ops[5*i:5*i+5], all_test_ipc[5*i:5*i+5], all_test_time[5*i:5*i+5]), all_test_cpuUtil[5*i:5*i+5]*all_test_time[5*i:5*i+5])
+            list_graph.append(Graph(all_test_names[5*i:5*i+5], all_test_ops[5*i:5*i+5], all_test_ipc[5*i:5*i+5], all_test_time[5*i:5*i+5], all_test_cpuUtil[5*i:5*i+5]))
         
         # Построение графиков
         list_graph[self.listWidget.currentRow()].create_graph() # Убрать + 1, если не совпадают
