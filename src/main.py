@@ -41,7 +41,6 @@ class mainWindow(QMainWindow, Ui_MainWindow):
         library_file.close()
         self.clear_h_dir()
 
-
     # функция выбора директории до h файлов
     def get_h_dir(self):
         h_dir = QFileDialog.getOpenFileName(self)[0]
@@ -84,6 +83,8 @@ class mainWindow(QMainWindow, Ui_MainWindow):
 
     # функция сборки и вывода окна с результатами
     def results(self):
+        #boosting performance
+        subprocess.run(['sudo', 'bash', f'.{parDir}/cpu_max.sh', 'max', 'performance'])
         # чтение пути до h файлов для generator и builder
         h_file = open(f'{parDir}/hPath.txt', "r")
         h_common_way = h_file.read()
@@ -97,9 +98,14 @@ class mainWindow(QMainWindow, Ui_MainWindow):
         lib_way = library_file.read()
         library_file.close()
         #python3 builder.py /home/vadim/PEAS/src/lsm.py /home/vadim/PEAS/src/
+        
         #if not (h_file and lib_way) :
             #subprocess.run(['python3', f'{curDir}/builder_threads.py', lib_way, h_way, nanobench])
             #execute(mem_req)
+        
+        global cpu_util
+        cpu_util = execute(mem_req)
+
         
         global need_to_clear
         need_to_clear = [tmp[0] for tmp in mem_req]
@@ -155,15 +161,17 @@ class ResultsWindow(QDialog, Ui_Dialog2):
         all_test_ops = []
         all_test_ipc = []
         all_test_time = []
+        all_test_cpuUtil = []
 
         for i in all_test_names:
             all_test_ops.append(round(data_dict[i]['op/s'], 2)) # 'op/s'
             all_test_ipc.append(round(data_dict[i]['IPC'], 2))
             all_test_time.append(data_dict[i]['median(elapsed)'])
+            all_test_cpuUtil.append(cpu_util[i])
         
         list_graph = []
         for i in range(int(len(all_test_names)/5)):
-            list_graph.append(Graph(all_test_names[5*i:5*i+5], all_test_ops[5*i:5*i+5],all_test_ipc[5*i:5*i+5], all_test_time[5*i:5*i+5]))
+            list_graph.append(Graph(all_test_names[5*i:5*i+5], all_test_ops[5*i:5*i+5], all_test_ipc[5*i:5*i+5], all_test_time[5*i:5*i+5]), all_test_cpuUtil[5*i:5*i+5]*all_test_time[5*i:5*i+5])
         
         # Построение графиков
         list_graph[self.listWidget.currentRow()].create_graph() # Убрать + 1, если не совпадают
