@@ -98,24 +98,23 @@ class mainWindow(QMainWindow, Ui_MainWindow):
         h_common_way = h_file.read()
         h_way = h_common_way[0:h_common_way.rfind("/") + 1]
         h_file.close()
-        # python3 generator.py /home/vadim/PEAS/src/
+
         mem_req = generator(parDir, h_way, h_common_way[h_common_way.rfind("/")+1: len(h_common_way)-1])
 
-        # Чтение пути до библиотеки для builder
         library_file = open(f'{parDir}/LibraryPath.txt', "r")
         lib_way = library_file.read()
         library_file.close()
-        #python3 builder.py /home/vadim/PEAS/src/lsm.py /home/vadim/PEAS/src/
         
-        #subprocess.run(['python3', f'{curDir}/builder_threads.py', lib_way, h_way, nanobench])
+        subprocess.run(['python3', f'{curDir}/builder_threads.py', lib_way, h_way, nanobench])
         global cpu_util
+        subprocess.run(['sudo', 'bash', f'.{parDir}/cpu_max.sh', 'min', 'powersave'])
         cpu_util = execute(mem_req)
         
         global need_to_clear
         need_to_clear = [tmp[0] for tmp in mem_req]
         need_to_clear.sort()
         
-        #self.clear_tmp(need_to_clear)
+        self.clear_tmp(need_to_clear)
         
         window3 = ResultsWindow()
         window3.initUI(need_to_clear)
@@ -144,7 +143,7 @@ class ResultsWindow(QDialog, Ui_Dialog2):
 
     # Функция построения графиков
     def build_graph(self):
-        data = jsonAnalyzer()
+        data = jsonAnalyzer(need_to_clear)
         # Словарь данных
         data_dict = data.get_res()
 
@@ -159,7 +158,7 @@ class ResultsWindow(QDialog, Ui_Dialog2):
         all_test_cpuUtil = []
 
         for id, i in enumerate(all_test_names):
-            all_test_ops.append(round(data_dict[i]['op/s'], 2)) # 'op/s'
+            all_test_ops.append(round(data_dict[i]['op/s'], 2))
             all_test_ipc.append(round(data_dict[i]['IPC'], 2))
             all_test_time.append(data_dict[i]['median(elapsed)'])
             all_test_cpuUtil.append(cpu_util[i]*all_test_time[id])

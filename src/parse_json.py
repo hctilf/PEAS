@@ -2,10 +2,11 @@ import json, os, re
 
 class jsonAnalyzer:
 	"""some descr"""
-	def __init__(self):
+	def __init__(self, tests):
 		self.json_files = []
 		self.json_objs = {}
 		self.results = {}
+		self.tests = tests
 		self.mainDir = f'/home/{os.getlogin()}/PEAS'
 		self.dict = ["name", "epochs", "median(elapsed)", "median(instructions)", "median(cpucycles)", "median(branchinstructions)", "median(branchmisses)", "totalTime"]
 		self.dirs = [d.name for d in os.scandir(f"{self.mainDir}/tmp") if d.is_dir()]
@@ -23,11 +24,12 @@ class jsonAnalyzer:
 
 	def gather_all(self):
 		for d in self.dirs:
-			os.chdir(f"{self.mainDir}/tmp/{d}")
-			self.gather_files()
-			self.load_jsons()
-			for i in self.json_objs:
-				self.form_results(i)
+			if d in self.tests:
+				os.chdir(f"{self.mainDir}/tmp/{d}")
+				self.gather_files()
+				self.load_jsons()
+				for i in self.json_objs:
+					self.form_results(i)
 
 	def gather_files(self) -> int:
 		json_file_template = re.compile(r'^[.\w\d\s-]+([.]json){1}$')
