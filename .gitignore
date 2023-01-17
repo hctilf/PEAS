@@ -1,0 +1,7 @@
+src/test*
+__pycache__
+tmp
+*.txt
+*.h
+*.cpp
+nano*
